@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on Sun Mar 10 16:10:44 2019 by Eclipse SUMO netconvert Version 1.1.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <node-files value="name.nod.xml"/>
+        <edge-files value="name.edg.xml"/>
+    </input>
+
+    <output>
+        <output-file value="name.net.xml"/>
+    </output>
+
+</configuration>
+-->
+
+<net version="1.1" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="250.00,0.00" convBoundary="0.00,0.00,250.00,250.00" origBoundary="-250.00,0.00,0.00,250.00" projParameter="!"/>
+
+    <edge id=":2_0" function="internal">
+        <lane id=":2_0_0" index="0" speed="3.90" length="2.58" shape="250.00,-1.60 250.70,-1.50 251.20,-1.20 251.50,-0.70 251.60,0.00"/>
+    </edge>
+
+    <edge id="1to2" from="1" to="2" priority="-1">
+        <lane id="1to2_0" index="0" speed="13.89" length="250.00" shape="0.00,-1.60 250.00,-1.60"/>
+    </edge>
+    <edge id="2to3" from="2" to="3" priority="-1">
+        <lane id="2to3_0" index="0" speed="13.89" length="250.00" shape="251.60,0.00 251.60,250.00"/>
+    </edge>
+
+    <junction id="1" type="dead_end" x="0.00" y="0.00" incLanes="" intLanes="" shape="0.00,0.00 0.00,-3.20"/>
+    <junction id="2" type="priority" x="250.00" y="0.00" incLanes="1to2_0" intLanes=":2_0_0" shape="250.00,0.00 253.20,0.00 252.84,-1.78 252.40,-2.40 251.78,-2.84 250.98,-3.11 250.00,-3.20">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+    <junction id="3" type="dead_end" x="250.00" y="250.00" incLanes="2to3_0" intLanes="" shape="253.20,250.00 250.00,250.00"/>
+
+    <connection from="1to2" to="2to3" fromLane="0" toLane="0" via=":2_0_0" dir="l" state="M"/>
+
+    <connection from=":2_0" to="2to3" fromLane="0" toLane="0" dir="l" state="M"/>
+
+</net>
