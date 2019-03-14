@@ -4,4 +4,4 @@ class Node:
         self.id = _id
 
     def __str__(self):
-        return 'id: ' + self.id
+        return "id: '" + self.id + "'"
