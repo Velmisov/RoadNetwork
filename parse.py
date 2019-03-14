@@ -14,9 +14,6 @@ for node in nodes_root:
         attributes = node.attrib
         nodes[attributes['id']] = Node(attributes['id'])
 
-for _id in nodes:
-    print(_id, nodes[_id])
-
 PATH_TO_EDGES_FILE = './name.edg.xml'
 
 edges_tree = ET.parse(PATH_TO_EDGES_FILE)
@@ -27,7 +24,12 @@ edges = {}
 for edge in edges_root:
     if edge.tag == 'edge':
         attributes = edge.attrib
-        edges[attributes['id']] = Edge(attributes['id'], attributes['from'], attributes['to'])
+        new_edge = Edge(attributes['id'], attributes['from'], attributes['to'])
+        edges[attributes['id']] = new_edge
+        nodes[new_edge.out_of].add_edge(new_edge)
 
 for _id in edges:
     print(_id, edges[_id])
+
+for _id in nodes:
+    print(_id, nodes[_id])
