@@ -4,12 +4,12 @@ from Edge import Edge
 
 PATH_TO_NODES_FILE = './name.nod.xml'
 
-nodesTree = ET.parse(PATH_TO_NODES_FILE)
-nodesRoot = nodesTree.getroot()
+nodes_tree = ET.parse(PATH_TO_NODES_FILE)
+nodes_root = nodes_tree.getroot()
 
 nodes = {}
 
-for node in nodesRoot:
+for node in nodes_root:
     if node.tag == 'node':
         attributes = node.attrib
         nodes[attributes['id']] = Node(attributes['id'])
@@ -19,12 +19,12 @@ for _id in nodes:
 
 PATH_TO_EDGES_FILE = './name.edg.xml'
 
-edgesTree = ET.parse(PATH_TO_EDGES_FILE)
-edgesRoot = edgesTree.getroot()
+edges_tree = ET.parse(PATH_TO_EDGES_FILE)
+edges_root = edges_tree.getroot()
 
 edges = {}
 
-for edge in edgesRoot:
+for edge in edges_root:
     if edge.tag == 'edge':
         attributes = edge.attrib
         edges[attributes['id']] = Edge(attributes['id'], attributes['from'], attributes['to'])
