@@ -7,25 +7,27 @@ PATH_TO_NODES_FILE = './name.nod.xml'
 nodesTree = ET.parse(PATH_TO_NODES_FILE)
 nodesRoot = nodesTree.getroot()
 
-nodes = []
+nodes = {}
 
 for node in nodesRoot:
     if node.tag == 'node':
-        nodes.append(Node(node.attrib['id']))
+        attributes = node.attrib
+        nodes[attributes['id']] = Node(attributes['id'])
 
-for node in nodes:
-    print(node)
+for _id in nodes:
+    print(_id, nodes[_id])
 
 PATH_TO_EDGES_FILE = './name.edg.xml'
 
 edgesTree = ET.parse(PATH_TO_EDGES_FILE)
 edgesRoot = edgesTree.getroot()
 
-edges = []
+edges = {}
 
 for edge in edgesRoot:
     if edge.tag == 'edge':
-        edges.append(Edge(edge.attrib['id'], edge.attrib['from'], edge.attrib['to']))
+        attributes = edge.attrib
+        edges[attributes['id']] = Edge(attributes['id'], attributes['from'], attributes['to'])
 
-for edge in edges:
-    print(edge)
+for _id in edges:
+    print(_id, edges[_id])
