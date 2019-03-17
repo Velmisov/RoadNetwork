@@ -34,7 +34,9 @@ class RoadNetwork:
         route = []
         current = last_node_id
         while par[current] != current:
-            route.append(current)
+            for edge in self.nodes[par[current]].edges.values():
+                if edge.out_of == par[current] and edge.to == current:
+                    route.append(edge.id)
+                    break
             current = par[current]
-        route.append(first_node_id)
         return list(reversed(route))
