@@ -25,7 +25,9 @@ while traci.simulation.getMinExpectedNumber() > 0:
     traci.simulationStep()
     if not checked and 'veh0' in traci.vehicle.getIDList():
         checked = True
-        print(rn.Deijkstra('veh0'))
+        route = rn.Deijkstra('veh0')
+        print(route)
+        traci.vehicle.setRoute('veh0', route)
 
 traci.close()
 sumoProcess.terminate()
