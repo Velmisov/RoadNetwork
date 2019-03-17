@@ -1,3 +1,5 @@
+import traci
+
 
 class Vehicle:
     def __init__(self, _id):
@@ -5,3 +7,19 @@ class Vehicle:
 
     def __str__(self):
         return "Vehicle. id:'" + self.id + "'"
+
+    def get_first_edge(self):
+        if self.id not in traci.vehicle.getIDList():
+            return None
+        route = traci.vehicle.getRoute(self.id)
+        if len(route) == 0:
+            return None
+        return route[0]
+
+    def get_last_edge(self):
+        if self.id not in traci.vehicle.getIDList():
+            return None
+        route = traci.vehicle.getRoute(self.id)
+        if len(route) == 0:
+            return None
+        return route[-1]
