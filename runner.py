@@ -3,6 +3,7 @@ import traci
 import subprocess
 from RoadNetwork import RoadNetwork
 from parse import parse
+from Vehicle import Vehicle
 
 # added by File -> Settings -> Project interpreter -> Chosen interpreter -> add to path: /usr/share/sumo/tools
 # if 'SUMO_HOME' in os.environ:
@@ -20,14 +21,16 @@ traci.init(port)
 (nodes, edges) = parse('./name.nod.xml', 'name.edg.xml')
 
 rn = RoadNetwork(nodes, edges)
-checked = False
-while traci.simulation.getMinExpectedNumber() > 0:
-    traci.simulationStep()
-    if not checked and 'veh0' in traci.vehicle.getIDList():
-        checked = True
-        route = rn.Deijkstra('veh0')
-        print(route)
-        traci.vehicle.setRoute('veh0', route)
+vehicles = {}
+while not rn.empty():
+    rn.simulation_step()
+    active_vehicles = traci.vehicle.getIDList()
+    for vehicle_id in active_vehicles:
+        if vehicle_id not in vehicles:
+            vehicles[vehicle_id] = Vehicle(vehicle_id)
+            route = rn.Deijkstra(vehicle_id)
+            print(route)
+            traci.vehicle.setRoute(vehicle_id, route)
 
 traci.close()
 sumoProcess.terminate()
