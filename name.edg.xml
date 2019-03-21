@@ -1,7 +1,0 @@
-<edges>
-	<edge id="1to2" from="1" to="2" />
-	<edge id="2to3" from="2" to="3" />
-	<edge id="2to4" from="2" to="4" />
-	<edge id="3to5" from="3" to="5" />
-	<edge id="5to4" from="5" to="4" />
-</edges>
