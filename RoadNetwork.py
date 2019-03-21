@@ -1,11 +1,27 @@
 from queue import PriorityQueue
 from Vehicle import Vehicle
+import traci
 
 
 class RoadNetwork:
-    def __init__(self, nodes, edges):
+    def __init__(self, nodes, edges, vehicles=None):
         self.nodes = nodes
         self.edges = edges
+        self.vehicles = vehicles
+        self.__subscribe_edges()
+
+    @staticmethod
+    def empty():
+        return not (traci.simulation.getMinExpectedNumber() > 0)
+
+    def simulation_step(self):
+        traci.simulationStep()
+
+        subscription_results = {}
+        for edge_id in self.edges:
+            subscription_results[edge_id] = traci.edge.getSubscriptionResults(edge_id)
+            self.edges[edge_id].weight = subscription_results[edge_id][0x10] + 1
+        return subscription_results
 
     def Deijkstra(self, vehicle_id):
         INF = 1000
@@ -40,3 +56,7 @@ class RoadNetwork:
                     break
             current = par[current]
         return list(reversed(route))
+
+    def __subscribe_edges(self):
+        for edge in self.edges:
+            traci.edge.subscribe(edge, [0x10])
