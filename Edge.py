@@ -4,7 +4,7 @@ class Edge:
         self.id = _id
         self.out_of = out_of
         self.to = to
-        self.weight = weight or 1
+        self.weight = weight or 0
 
     def __str__(self):
         return "Edge. id: '" + self.id + "', out of: '" + self.out_of + "', to: '" + self.to + "'"
