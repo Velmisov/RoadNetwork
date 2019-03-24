@@ -4,8 +4,7 @@ import traci
 
 
 class RoadNetwork:
-    def __init__(self, nodes, edges, vehicles=None):
-        self.nodes = nodes
+    def __init__(self, edges, vehicles=None):
         self.edges = edges
         self.vehicles = vehicles
         self.__subscribe_edges()
@@ -26,35 +25,36 @@ class RoadNetwork:
     def Deijkstra(self, vehicle_id):
         INF = 1000
         vehicle = Vehicle(vehicle_id)
-        dist = {node_id: INF for node_id in self.nodes}
-        par = {node_id: node_id for node_id in self.nodes}
+        dist = {edge_id: INF for edge_id in self.edges}
+        par = {edge_id: edge_id for edge_id in self.edges}
         pq = PriorityQueue()
-        first_node_id = self.edges[vehicle.get_first_edge()].out_of
+        first_edge_id = vehicle.get_first_edge()
         last_node_id = self.edges[vehicle.get_last_edge()].to
-        pq.put((0, first_node_id))
+        last_edge_id = None
+        pq.put((0, first_edge_id))
+        dist[first_edge_id] = 0
         while not pq.empty():
-            (d, node_id) = pq.get()
-            if node_id == last_node_id:
+            (d, edge_id) = pq.get()
+            if self.edges[edge_id].to == last_node_id:
+                last_edge_id = edge_id
                 break
-            for edge in self.nodes[node_id].edges.values():
-                to = edge.to
+            for edge in self.edges[edge_id].outgoing.values():
+                to = edge.id
                 weight = edge.weight
                 if dist[to] > d + weight:
                     dist[to] = d + weight
-                    par[to] = node_id
+                    par[to] = edge_id
                     pq.put((dist[to], to))
 
-        if dist[last_node_id] == INF:
+        if last_edge_id is None or dist[last_edge_id] == INF:
             return None
 
         route = []
-        current = last_node_id
+        current = last_edge_id
         while par[current] != current:
-            for edge in self.nodes[par[current]].edges.values():
-                if edge.out_of == par[current] and edge.to == current:
-                    route.append(edge.id)
-                    break
+            route.append(current)
             current = par[current]
+        route.append(first_edge_id)
         return list(reversed(route))
 
     def __subscribe_edges(self):
