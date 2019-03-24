@@ -1,10 +1,11 @@
 
 class Edge:
-    def __init__(self, _id, out_of, to, length=None, weight=None, outgoing=None):
+    def __init__(self, _id, out_of, to, length, max_speed, weight=None, outgoing=None):
         self.id = _id
         self.out_of = out_of
         self.to = to
-        self.length = length or 0
+        self.length = length
+        self.max_speed = max_speed
         self.weight = weight or 0
         self.outgoing = outgoing or {}
 
