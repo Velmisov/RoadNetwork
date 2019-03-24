@@ -7,7 +7,11 @@ def parse(path_to_net_file):
 
     edges = {}
     for edge in net.getEdges():
-        edges[edge.getID()] = Edge(edge.getID(), edge.getFromNode().getID(), edge.getToNode().getID(), edge.getLength())
+        edges[edge.getID()] = Edge(edge.getID(),
+                                   edge.getFromNode().getID(),
+                                   edge.getToNode().getID(),
+                                   edge.getLength(),
+                                   edge.getSpeed())
 
     for edge in net.getEdges():
         for out in edge.getOutgoing():
