@@ -18,9 +18,9 @@ sumoCmd = ['sumo-gui', '-c', 'name.sumocfg', '--remote-port', str(port)]
 sumoProcess = subprocess.Popen(sumoCmd, stdout=sys.stdout, stderr=sys.stderr)
 traci.init(port)
 
-(nodes, edges) = parse('./name.nod.xml', 'name.edg.xml')
+edges = parse('./name.net.xml')
 
-rn = RoadNetwork(nodes, edges)
+rn = RoadNetwork(edges)
 vehicles = {}
 while not rn.empty():
     rn.simulation_step()
