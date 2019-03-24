@@ -19,7 +19,11 @@ class RoadNetwork:
         subscription_results = {}
         for edge_id in self.edges:
             subscription_results[edge_id] = traci.edge.getSubscriptionResults(edge_id)
-            self.edges[edge_id].weight = subscription_results[edge_id][0x10] + 1
+            vehicle_number = subscription_results[edge_id][0x10]
+            mean_speed = subscription_results[edge_id][0x11]
+            if vehicle_number == 0 or mean_speed == 0:
+                mean_speed = self.edges[edge_id].max_speed
+            self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed
         return subscription_results
 
     def Deijkstra(self, vehicle_id):
@@ -59,4 +63,4 @@ class RoadNetwork:
 
     def __subscribe_edges(self):
         for edge in self.edges:
-            traci.edge.subscribe(edge, [0x10])
+            traci.edge.subscribe(edge, [0x10, 0x11])
