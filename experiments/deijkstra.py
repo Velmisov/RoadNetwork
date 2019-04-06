@@ -23,7 +23,7 @@ edges = parse('../data/deijkstra/deijkstra.net.xml')
 rn = RoadNetwork(edges)
 vehicles = {}
 while not rn.empty():
-    rn.simulation_step()
+    rn.simulation_step(rn.mean_speed_weight)
     active_vehicles = traci.vehicle.getIDList()
     for vehicle_id in active_vehicles:
         if vehicle_id not in vehicles:
