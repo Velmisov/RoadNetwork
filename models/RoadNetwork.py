@@ -1,5 +1,5 @@
 from queue import PriorityQueue
-from Vehicle import Vehicle
+from models.Vehicle import Vehicle
 import traci
 
 

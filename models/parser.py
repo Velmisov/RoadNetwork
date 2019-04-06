@@ -1,5 +1,5 @@
 import sumolib
-from Edge import Edge
+from models.Edge import Edge
 
 
 def parse(path_to_net_file):

@@ -1,9 +1,9 @@
 import sys
 import traci
 import subprocess
-from RoadNetwork import RoadNetwork
-from parse import parse
-from Vehicle import Vehicle
+from models.RoadNetwork import RoadNetwork
+from models.parser import parse
+from models.Vehicle import Vehicle
 
 # added by File -> Settings -> Project interpreter -> Chosen interpreter -> add to path: /usr/share/sumo/tools
 # if 'SUMO_HOME' in os.environ:
@@ -13,12 +13,12 @@ from Vehicle import Vehicle
 #     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 port = 10080
-sumoCmd = ['sumo-gui', '-c', 'name.sumocfg', '--remote-port', str(port)]
+sumoCmd = ['sumo-gui', '-c', './data/deijkstra/name.sumocfg', '--remote-port', str(port)]
 
 sumoProcess = subprocess.Popen(sumoCmd, stdout=sys.stdout, stderr=sys.stderr)
 traci.init(port)
 
-edges = parse('./name.net.xml')
+edges = parse('./data/deijkstra/name.net.xml')
 
 rn = RoadNetwork(edges)
 vehicles = {}
