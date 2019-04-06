@@ -1,0 +1,12 @@
+<configuration>
+	<input>
+		<net-file value="deijkstra.net.xml" />
+		<route-files value="deijkstra.rou.xml" />
+		<gui-settings-file value="deijkstra.settings.xml" />
+	</input>
+	
+	<time>
+		<begin value="0" />
+		<end value="10000" />
+	</time>
+</configuration>

@@ -13,12 +13,12 @@ from models.Vehicle import Vehicle
 #     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 port = 10080
-sumoCmd = ['sumo-gui', '-c', './data/deijkstra/name.sumocfg', '--remote-port', str(port)]
+sumoCmd = ['sumo-gui', '-c', './data/deijkstra/deijkstra.sumocfg', '--remote-port', str(port)]
 
 sumoProcess = subprocess.Popen(sumoCmd, stdout=sys.stdout, stderr=sys.stderr)
 traci.init(port)
 
-edges = parse('./data/deijkstra/name.net.xml')
+edges = parse('./data/deijkstra/deijkstra.net.xml')
 
 rn = RoadNetwork(edges)
 vehicles = {}
