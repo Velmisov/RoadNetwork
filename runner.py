@@ -13,12 +13,12 @@ from models.Vehicle import Vehicle
 #     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 port = 10080
-sumoCmd = ['sumo-gui', '-c', './data/deijkstra/deijkstra.sumocfg', '--remote-port', str(port)]
+sumoCmd = ['sumo-gui', '-c', './data/weight_with_turns/wturns.sumocfg', '--remote-port', str(port)]
 
 sumoProcess = subprocess.Popen(sumoCmd, stdout=sys.stdout, stderr=sys.stderr)
 traci.init(port)
 
-edges = parse('./data/deijkstra/deijkstra.net.xml')
+edges = parse('./data/weight_with_turns/wturns.net.xml')
 
 rn = RoadNetwork(edges)
 vehicles = {}
@@ -28,7 +28,7 @@ while not rn.empty():
     for vehicle_id in active_vehicles:
         if vehicle_id not in vehicles:
             vehicles[vehicle_id] = Vehicle(vehicle_id)
-            route = rn.Deijkstra(vehicle_id)
+            route = rn.Deijkstra(vehicle_id, rn.weight_with_turns)
             print(route)
             traci.vehicle.setRoute(vehicle_id, route)
 
