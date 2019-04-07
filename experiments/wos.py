@@ -13,12 +13,12 @@ from models.Vehicle import Vehicle
 #     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 port = 10080
-sumoCmd = ['sumo-gui', '-c', './data/weight_with_own_speed/wos.sumocfg', '--remote-port', str(port)]
+sumoCmd = ['sumo-gui', '-c', '../data/weight_with_own_speed/wos.sumocfg', '--remote-port', str(port)]
 
 sumoProcess = subprocess.Popen(sumoCmd, stdout=sys.stdout, stderr=sys.stderr)
 traci.init(port)
 
-edges = parse('./data/weight_with_own_speed/wos.net.xml')
+edges = parse('../data/weight_with_own_speed/wos.net.xml')
 
 rn = RoadNetwork(edges)
 vehicles = {}

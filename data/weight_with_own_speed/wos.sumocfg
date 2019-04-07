@@ -1,0 +1,12 @@
+<configuration>
+	<input>
+		<net-file value="wos.net.xml" />
+		<route-files value="wos.rou.xml" />
+		<gui-settings-file value="wos.settings.xml" />
+	</input>
+	
+	<time>
+		<begin value="0" />
+		<end value="10000" />
+	</time>
+</configuration>
