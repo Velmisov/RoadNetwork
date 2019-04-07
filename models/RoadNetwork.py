@@ -5,8 +5,9 @@ import traci
 
 
 class RoadNetwork:
-    def __init__(self, edges):
+    def __init__(self, edges, special_vehicle_id=None):
         self.edges = edges
+        self.special_vehicle_id = special_vehicle_id
         self.traffic_lights = None
         self.vehicles = None
         self.__subscribe_edges()
@@ -19,6 +20,10 @@ class RoadNetwork:
     def simulation_step(self):
         traci.simulationStep()
 
+        special_vehicle = None
+        if self.special_vehicle_id in traci.vehicle.getIDList():
+            special_vehicle = Vehicle(self.special_vehicle_id)
+
         if self.traffic_lights is None:
             self.traffic_lights = {}
             tl_ids = TrafficLight.get_ids()
@@ -26,7 +31,7 @@ class RoadNetwork:
                 self.traffic_lights[tl_id] = TrafficLight(tl_id)
 
         for tl_id in self.traffic_lights:
-            self.traffic_lights[tl_id].simulation_step()
+            self.traffic_lights[tl_id].simulation_step(special_vehicle)
 
         for edge_id in self.edges:
             self.subscription_results[edge_id] = traci.edge.getSubscriptionResults(edge_id)

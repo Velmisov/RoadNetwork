@@ -32,3 +32,6 @@ class Vehicle:
         if len(route) == 0:
             return None
         return route[-1]
+
+    def get_route(self):
+        return traci.vehicle.getRoute(self.id)
