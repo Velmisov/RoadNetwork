@@ -8,25 +8,24 @@ class RoadNetwork:
         self.edges = edges
         self.vehicles = vehicles
         self.__subscribe_edges()
+        self.subscription_results = {}
 
     @staticmethod
     def empty():
         return not (traci.simulation.getMinExpectedNumber() > 0)
 
-    def simulation_step(self, calc_weight):
+    def simulation_step(self):
         traci.simulationStep()
 
-        subscription_results = {}
         for edge_id in self.edges:
-            subscription_results[edge_id] = traci.edge.getSubscriptionResults(edge_id)
+            self.subscription_results[edge_id] = traci.edge.getSubscriptionResults(edge_id)
 
-        calc_weight(subscription_results)
+        return self.subscription_results
 
-        return subscription_results
-
-    def Deijkstra(self, vehicle_id):
+    def Deijkstra(self, vehicle_id, calc_weight):
         INF = 1000
         vehicle = Vehicle(vehicle_id)
+        calc_weight(vehicle)
         dist = {edge_id: INF for edge_id in self.edges}
         par = {edge_id: edge_id for edge_id in self.edges}
         pq = PriorityQueue()
@@ -63,10 +62,13 @@ class RoadNetwork:
         for edge in self.edges:
             traci.edge.subscribe(edge, [0x10, 0x11])
 
-    def mean_speed_weight(self, subscription_results):
+    def mean_speed_weight(self, vehicle):
         for edge_id in self.edges:
-            vehicle_number = subscription_results[edge_id][0x10]
-            mean_speed = subscription_results[edge_id][0x11]
+            vehicle_number = self.subscription_results[edge_id][0x10]
+            mean_speed = self.subscription_results[edge_id][0x11]
             if vehicle_number == 0 or mean_speed == 0:
                 mean_speed = self.edges[edge_id].max_speed
             self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed
+
+    def weight_with_turns(self, vehicle):
+        pass
