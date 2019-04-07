@@ -14,6 +14,9 @@ class Vehicle:
     def get_decel(self):
         return traci.vehicle.getDecel(self.id)
 
+    def get_max_speed(self):
+        return traci.vehicle.getMaxSpeed(self.id)
+
     def get_first_edge(self):
         if self.id not in traci.vehicle.getIDList():
             return None

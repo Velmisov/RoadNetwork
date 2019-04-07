@@ -81,3 +81,15 @@ class RoadNetwork:
                                              self.edges[edge_id].max_speed / vehicle.get_decel()
             else:
                 self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed
+
+    def weight_with_own_speed(self, vehicle):
+        for edge_id in self.edges:
+            vehicle_number = self.subscription_results[edge_id][0x10]
+            mean_speed = min(self.subscription_results[edge_id][0x11], vehicle.get_max_speed())
+            if vehicle_number == 0 or mean_speed == 0:
+                mean_speed = min(self.edges[edge_id].max_speed, vehicle.get_max_speed())
+                self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed + \
+                                             mean_speed / vehicle.get_accel() + \
+                                             mean_speed / vehicle.get_decel()
+            else:
+                self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed
