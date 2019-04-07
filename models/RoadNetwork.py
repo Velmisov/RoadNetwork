@@ -71,4 +71,13 @@ class RoadNetwork:
             self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed
 
     def weight_with_turns(self, vehicle):
-        pass
+        for edge_id in self.edges:
+            vehicle_number = self.subscription_results[edge_id][0x10]
+            mean_speed = self.subscription_results[edge_id][0x11]
+            if vehicle_number == 0 or mean_speed == 0:
+                mean_speed = self.edges[edge_id].max_speed
+                self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed + \
+                                             self.edges[edge_id].max_speed / vehicle.get_accel() + \
+                                             self.edges[edge_id].max_speed / vehicle.get_decel()
+            else:
+                self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed
