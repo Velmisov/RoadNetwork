@@ -1,12 +1,14 @@
 from queue import PriorityQueue
 from models.Vehicle import Vehicle
+from models.TrafficLight import TrafficLight
 import traci
 
 
 class RoadNetwork:
-    def __init__(self, edges, vehicles=None):
+    def __init__(self, edges):
         self.edges = edges
-        self.vehicles = vehicles
+        self.traffic_lights = None
+        self.vehicles = None
         self.__subscribe_edges()
         self.subscription_results = {}
 
@@ -16,6 +18,15 @@ class RoadNetwork:
 
     def simulation_step(self):
         traci.simulationStep()
+
+        if self.traffic_lights is None:
+            self.traffic_lights = {}
+            tl_ids = TrafficLight.get_ids()
+            for tl_id in tl_ids:
+                self.traffic_lights[tl_id] = TrafficLight(tl_id)
+
+        for tl_id in self.traffic_lights:
+            self.traffic_lights[tl_id].simulation_step()
 
         for edge_id in self.edges:
             self.subscription_results[edge_id] = traci.edge.getSubscriptionResults(edge_id)
