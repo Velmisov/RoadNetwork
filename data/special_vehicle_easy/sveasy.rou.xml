@@ -1,0 +1,35 @@
+<routes>
+	<vType id="Car" accel="1" decel="5" sigma="0" length="2" maxSpeed="20" />
+	<vType id="SpecialCar" guiShape="emergency" vClass="emergency" />
+
+	<flow id="flowj0_j2" begin="0" end="100" period="2" type="Car">
+		<route edges="j0_to_center center_to_j2" />
+	</flow>
+	<flow id="flowj0_j1" begin="0" end="100" period="5" type="Car">
+		<route edges="j0_to_center center_to_j1" />
+	</flow>
+
+	<flow id="flowj1_j3" begin="0" end="100" period="5" type="Car">
+		<route edges="j1_to_center center_to_j3" />
+	</flow>
+	<flow id="flowj1_j2" begin="0" end="100" period="5" type="Car">
+		<route edges="j1_to_center center_to_j2" />
+	</flow>
+
+	<flow id="flowj2_j0" begin="0" end="100" period="2" type="Car">
+		<route edges="j2_to_center center_to_j0" />
+	</flow>
+	<flow id="flowj2_j3" begin="0" end="100" period="5" type="Car">
+		<route edges="j2_to_center center_to_j3" />
+	</flow>
+
+	<flow id="flowj3_j1" begin="0" end="100" period="2" type="Car">
+		<route edges="j3_to_center center_to_j1" />
+	</flow>
+	<flow id="flowj3_j0" begin="0" end="100" period="5" type="Car">
+		<route edges="j3_to_center center_to_j0" />
+	</flow>
+
+	<route id="routeSpecialCar" edges="j0_to_center center_to_j1" />
+	<vehicle id="specialCar" depart="20" type="SpecialCar" route="routeSpecialCar" />
+</routes>
