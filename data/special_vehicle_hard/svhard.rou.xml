@@ -1,0 +1,19 @@
+<routes>
+	<vType id="Car" accel="1" decel="5" sigma="0" maxSpeed="20" />
+	<vType id="SpecialCar" guiShape="emergency" vClass="emergency" />
+
+	<flow id="flow_start_to_end" begin="0" end="400" period="3" type="Car">
+		<route edges="gneE32 gneE5 gneE9 gneE26 gneE22 gneE30" />
+	</flow>
+
+	<flow id="flow_j5_to_end" begin="0" end="200" period="5" type="Car">
+		<route edges="gneE28 gneE26 gneE22 gneE30" />
+	</flow>
+
+	<flow id="flow_j5_to_end_cross" begin="0" end="200" period="5" type="Car">
+		<route edges="gneE28 gneE11 gneE13 gneE15 gneE18 gneE24 gneE30" />
+	</flow>
+
+	<route id="routeSpecialCar" edges="gneE32 gneE5 gneE9 gneE26 gneE22 gneE30" />
+	<vehicle id="specialCar" depart="200" type="SpecialCar" route="routeSpecialCar" />
+</routes>
