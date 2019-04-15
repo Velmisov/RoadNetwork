@@ -17,7 +17,7 @@ class RoadNetwork:
     def empty():
         return not (traci.simulation.getMinExpectedNumber() > 0)
 
-    def simulation_step(self):
+    def simulation_step(self, green_for_special_car=False):
         traci.simulationStep()
 
         special_vehicle = None
@@ -30,8 +30,9 @@ class RoadNetwork:
             for tl_id in tl_ids:
                 self.traffic_lights[tl_id] = TrafficLight(tl_id)
 
-        for tl_id in self.traffic_lights:
-            self.traffic_lights[tl_id].simulation_step(special_vehicle)
+        if green_for_special_car:
+            for tl_id in self.traffic_lights:
+                self.traffic_lights[tl_id].simulation_step(special_vehicle)
 
         for edge_id in self.edges:
             self.subscription_results[edge_id] = traci.edge.getSubscriptionResults(edge_id)

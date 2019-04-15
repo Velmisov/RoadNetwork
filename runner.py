@@ -23,7 +23,7 @@ edges = parse('./data/special_vehicle_hard/svhard.net.xml')
 rn = RoadNetwork(edges, 'specialCar')
 vehicles = {}
 while not rn.empty():
-    rn.simulation_step()
+    rn.simulation_step(green_for_special_car=True)
     # print(traci.trafficlight.getCompleteRedYellowGreenDefinition('center'))
     # print(traci.trafficlight.getProgram('center'))
     # print(traci.trafficlight.getControlledLanes('center'))
