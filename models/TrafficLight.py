@@ -18,14 +18,16 @@ class TrafficLight:
         else:
             route = special_vehicle.get_route()
             state = ''
+            used_for_special_vehicle = False
             for lane in self.controlled_lanes:
                 belongs = False
                 for edge in route:
                     if lane.startswith(edge):
                         state += 'G'
                         belongs = True
+                        used_for_special_vehicle = True
                         break
                 if not belongs:
                     state += 'r'
-            if 'G' in state:
+            if used_for_special_vehicle:
                 traci.trafficlight.setRedYellowGreenState(self.id, state)
