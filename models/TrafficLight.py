@@ -16,7 +16,7 @@ class TrafficLight:
             if traci.trafficlight.getProgram(self.id) != self.program_id:
                 traci.trafficlight.setProgram(self.id, self.program_id)
         else:
-            route = special_vehicle.get_route()
+            route = special_vehicle.get_remaining_route()
             state = ''
             used_for_special_vehicle = False
             for lane in self.controlled_lanes:
@@ -31,3 +31,5 @@ class TrafficLight:
                     state += 'r'
             if used_for_special_vehicle:
                 traci.trafficlight.setRedYellowGreenState(self.id, state)
+            elif traci.trafficlight.getProgram(self.id) != self.program_id:
+                traci.trafficlight.setProgram(self.id, self.program_id)

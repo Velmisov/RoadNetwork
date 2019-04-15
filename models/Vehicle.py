@@ -35,3 +35,8 @@ class Vehicle:
 
     def get_route(self):
         return traci.vehicle.getRoute(self.id)
+
+    def get_remaining_route(self):
+        all_route = self.get_route()
+        print(traci.vehicle.getRouteIndex(self.id))
+        return all_route[traci.vehicle.getRouteIndex(self.id):]
