@@ -27,4 +27,5 @@ class TrafficLight:
                         break
                 if not belongs:
                     state += 'r'
-            traci.trafficlight.setRedYellowGreenState(self.id, state)
+            if 'G' in state:
+                traci.trafficlight.setRedYellowGreenState(self.id, state)
