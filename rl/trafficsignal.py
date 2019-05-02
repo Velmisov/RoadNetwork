@@ -43,9 +43,6 @@ class TrafficSignal:
         traci.trafficlight.setPhase(self.id, self.green_phase)
 
     def _compute_edges(self):
-        """
-        return: Dict green phase to edge id
-        """
         return {p: self.lanes[p * 2:p * 2 + 2] for p in range(self.num_green_phases)}  # two lanes per edge
 
     def _compute_edges_capacity(self):
@@ -103,19 +100,3 @@ class TrafficSignal:
         for lane in self.edges[p]:
             veh_list += traci.lane.getLastStepVehicleIDs(lane)
         return veh_list
-
-    @DeprecationWarning
-    def keep(self):
-        if self.time_on_phase >= self.max_green:
-            self.change()
-        else:
-            self.time_on_phase += self.delta_time
-            traci.trafficlight.setPhaseDuration(self.id, self.delta_time)
-
-    @DeprecationWarning
-    def change(self):
-        if self.time_on_phase < self.min_green:
-            self.keep()
-        else:
-            self.time_on_phase = self.delta_time
-            traci.trafficlight.setPhaseDuration(self.id, 0)

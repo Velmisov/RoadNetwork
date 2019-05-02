@@ -93,7 +93,7 @@ class SumoEnv(gym.Env):
         self.vehicles = dict()
 
         for _ in range(self.time_to_load_vehicles):
-            self._sumo_step()
+            traci.simulationStep()
 
         return self._compute_observations()
 
@@ -106,10 +106,10 @@ class SumoEnv(gym.Env):
 
         # run simulation for delta time
         for _ in range(self.yellow_time):
-            self._sumo_step()
+            traci.simulationStep()
         self.traffic_signal.update_phase()
         for _ in range(self.delta_time - self.yellow_time):
-            self._sumo_step()
+            traci.simulationStep()
 
         # observe new state and reward
         observation = self._compute_observations()
@@ -130,10 +130,10 @@ class SumoEnv(gym.Env):
             self._apply_action(action)
             # run simulation for delta time
             for _ in range(self.yellow_time):
-                self._sumo_step()
+                traci.simulationStep()
             self.traffic_signal.update_phase()
             for _ in range(self.delta_time - self.yellow_time):
-                self._sumo_step()
+                traci.simulationStep()
 
     def _apply_action(self, action):
         """
@@ -159,9 +159,6 @@ class SumoEnv(gym.Env):
         self.last_measure = ts_wait
         return rewards
 
-    def _sumo_step(self):
-        traci.simulationStep()
-
     def _compute_step_info(self):
         return {
             'step_time': self.sim_step,
@@ -172,16 +169,6 @@ class SumoEnv(gym.Env):
 
     def close(self):
         traci.close()
-
-    def _discretize_density(self, density):
-        return int(np.floor(density * 10))
-
-    def _discretize_elapsed_time(self, elapsed):
-        elapsed *= self.max_green
-        for i in range(self.max_green // self.delta_time):
-            if elapsed <= self.delta_time + i * self.delta_time:
-                return i
-        return self.max_green // self.delta_time - 1
 
     def save_csv(self, out_csv_name, run):
         if out_csv_name is not None:
