@@ -127,7 +127,6 @@ class SumoEnv(gym.Env):
         while True:
             observation = self._compute_observations()
             action = model.predict(observation)[0]
-            print(action)
             self._apply_action(action)
             # run simulation for delta time
             for _ in range(self.yellow_time):
