@@ -5,13 +5,15 @@ import traci
 
 
 class RoadNetwork:
-    def __init__(self, edges, special_vehicle_id=None):
+    def __init__(self, edges, special_vehicle_id=None, model=None, tl_phases=None):
         self.edges = edges
         self.special_vehicle_id = special_vehicle_id
         self.traffic_lights = None
-        self.vehicles = None
+        self.vehicles = {}
         self.__subscribe_edges()
         self.subscription_results = {}
+        self.model = model
+        self.tl_phases = tl_phases
 
     @staticmethod
     def empty():
@@ -110,3 +112,35 @@ class RoadNetwork:
                                              mean_speed / vehicle.get_decel()
             else:
                 self.edges[edge_id].weight = self.edges[edge_id].length / mean_speed
+
+    def run_with_model(self):
+        tl_ids = traci.trafficlight.getIDList()
+        tls = {}
+        for tl_id in tl_ids:
+            tls[tl_id] = TrafficLight(tl_id, self, self.tl_phases, with_model=True)
+
+        for _ in range(120):
+            traci.simulationStep()
+
+        while not self.empty():
+            for tl_id in tl_ids:
+                observation = RoadNetwork.compute_observation(tls[tl_id])
+                action = self.model.predict(observation)[0]
+                print(action)
+                tls[tl_id].set_next_phase(action)
+
+            # run simulation for delta time
+            for _ in range(tls[tl_ids[0]].yellow_time):
+                traci.simulationStep()
+            for tl_id in tl_ids:
+                tls[tl_id].update_phase()
+            for _ in range(tls[tl_ids[0]].delta_time - tls[tl_ids[0]].yellow_time):
+                traci.simulationStep()
+
+    @staticmethod
+    def compute_observation(tl):
+        phase_id = [1 if tl.phase // 2 == i else 0 for i in range(tl.num_green_phases)]  # one-hot encoding
+        elapsed = tl.time_on_phase / tl.max_green
+        density = tl.get_lanes_density()
+        queue = tl.get_lanes_queue()
+        return phase_id + [elapsed] + density + queue
