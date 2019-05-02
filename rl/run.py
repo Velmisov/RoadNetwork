@@ -9,7 +9,7 @@ from stable_baselines import A2C
 write_route_file('./nets/single-intersection-gen.rou.xml', 400000, 100000)
 
 sumo_env = SumoEnv(net_file='./nets/single-intersection-longer.net.xml',
-                   route_file='./nets/single-intersection.rou.xml',
+                   route_file='./nets/single-intersection-gen.rou.xml',
                    out_csv_name='./outputs/a2c-contexts-5s-vmvm-400k',
                    gui=True,
                    num_seconds=400000,
