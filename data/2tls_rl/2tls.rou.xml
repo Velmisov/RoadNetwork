@@ -1,0 +1,74 @@
+<routes>
+    <route id="route_wl" edges="w_tl1 tl1_n1"/>
+    <route id="route_wr" edges="w_tl1 tl1_s1"/>
+    <route id="route_wsl" edges="w_tl1 tl1_tl2 tl2_n2"/>
+    <route id="route_wsr" edges="w_tl1 tl1_tl2 tl2_s2"/>
+    <route id="route_wss" edges="w_tl1 tl1_tl2 tl2_e"/>
+
+    <flow id="flow_wl" route="route_wl" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+	<flow id="flow_wr" route="route_wr" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_wsl" route="route_wsl" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_wsr" route="route_wsr" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_wss" route="route_wss" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+
+    <route id="route_s1l" edges="s1_tl1 tl1_w"/>
+    <route id="route_s1s" edges="s1_tl1 tl1_n1"/>
+    <route id="route_s1rl" edges="s1_tl1 tl1_tl2 tl2_n2"/>
+    <route id="route_s1rr" edges="s1_tl1 tl1_tl2 tl2_s2"/>
+    <route id="route_s1rs" edges="s1_tl1 tl1_tl2 tl2_e"/>
+
+    <flow id="flow_s1l" route="route_s1l" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+	<flow id="flow_s1s" route="route_s1s" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_s1rl" route="route_s1rl" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_s1rr" route="route_s1rr" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_s1rs" route="route_s1rs" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+
+    <route id="route_n1r" edges="n1_tl1 tl1_w"/>
+    <route id="route_n1s" edges="n1_tl1 tl1_s1"/>
+    <route id="route_n1ll" edges="n1_tl1 tl1_tl2 tl2_n2"/>
+    <route id="route_n1lr" edges="n1_tl1 tl1_tl2 tl2_s2"/>
+    <route id="route_n1ls" edges="n1_tl1 tl1_tl2 tl2_e"/>
+
+    <flow id="flow_n1r" route="route_n1r" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+	<flow id="flow_n1s" route="route_n1s" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_n1ll" route="route_n1ll" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_n1lr" route="route_n1lr" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_n1ls" route="route_n1ls" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+
+    <route id="route_n2l" edges="n2_tl2 tl2_e"/>
+    <route id="route_n2s" edges="n2_tl2 tl2_s2"/>
+    <route id="route_n2rl" edges="n2_tl2 tl2_tl1 tl1_s1"/>
+    <route id="route_n2rr" edges="n2_tl2 tl2_tl1 tl1_n1"/>
+    <route id="route_n2rs" edges="n2_tl2 tl2_tl1 tl1_w"/>
+
+    <flow id="flow_n2l" route="route_n2l" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+	<flow id="flow_n2s" route="route_n2s" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_n2rl" route="route_n2rl" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_n2rr" route="route_n2rr" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_n2rs" route="route_n2rs" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+
+    <route id="route_s2r" edges="s2_tl2 tl2_e"/>
+    <route id="route_s2s" edges="s2_tl2 tl2_n2"/>
+    <route id="route_s2ll" edges="s2_tl2 tl2_tl1 tl1_s1"/>
+    <route id="route_s2lr" edges="s2_tl2 tl2_tl1 tl1_n1"/>
+    <route id="route_s2ls" edges="s2_tl2 tl2_tl1 tl1_w"/>
+
+    <flow id="flow_s2r" route="route_s2r" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+	<flow id="flow_s2s" route="route_s2s" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_s2ll" route="route_s2ll" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_s2lr" route="route_s2lr" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_s2ls" route="route_s2ls" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+
+    <route id="route_el" edges="e_tl2 tl2_s2"/>
+    <route id="route_er" edges="e_tl2 tl2_n2"/>
+    <route id="route_esl" edges="e_tl2 tl2_tl1 tl1_s1"/>
+    <route id="route_esr" edges="e_tl2 tl2_tl1 tl1_n1"/>
+    <route id="route_ess" edges="e_tl2 tl2_tl1 tl1_w"/>
+
+    <flow id="flow_el" route="route_el" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+	<flow id="flow_er" route="route_er" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_esl" route="route_esl" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_esr" route="route_esr" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+    <flow id="flow_ess" route="route_ess" begin="0" end="100000" vehsPerHour="70" departSpeed="max" departPos="base" departLane="best"/>
+
+</routes>
