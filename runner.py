@@ -33,5 +33,8 @@ rn = RoadNetwork(edges, None, model, [traci.trafficlight.Phase(32000, "GGrrrrGGr
 
 rn.run_with_model()
 
+# while not rn.empty():
+#     traci.simulationStep()
+
 traci.close()
 sumoProcess.terminate()
