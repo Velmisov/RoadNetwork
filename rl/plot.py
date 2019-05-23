@@ -48,6 +48,18 @@ def plot_figure(figsize=(12, 9), x_label='', y_label='', title=''):
     plt.ylabel(y_label)
 
 
+def to_intervals(arr, interval=10):
+    arr_interval = []
+    result = []
+    for i in range(len(arr)):
+        arr_interval.append(arr[i])
+        if len(arr_interval) == interval:
+            result.append(np.mean(arr_interval))
+            arr_interval = []
+    result.append(np.mean(arr_interval))
+    return result
+
+
 if __name__ == '__main__':
 
     prs = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -73,12 +85,13 @@ if __name__ == '__main__':
                 main_df = pd.concat((main_df, df))
 
         steps = main_df.groupby('step_time').total_stopped.mean().keys()
-        mean = moving_average(main_df.groupby('step_time').mean()['total_wait_time'], window_size=args.window)
-        std = moving_average(main_df.groupby('step_time').std()['total_wait_time'], window_size=args.window)
+        result_steps = to_intervals(steps)
 
-        plt.plot(steps, mean, label=labels[0])
+        mean = moving_average(main_df.groupby('step_time').mean()['total_wait_time'], window_size=args.window)
+        result_mean = to_intervals(mean)
+
+        plt.plot(result_steps, result_mean, label=labels[0])
         labels.pop(0)
-        plt.fill_between(steps, mean + std, mean - std, alpha=0.3)
 
     if args.label is not None:
         plt.legend()
