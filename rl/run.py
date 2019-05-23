@@ -6,11 +6,11 @@ from stable_baselines.common.policies import MlpPolicy
 from stable_baselines.common.vec_env import SubprocVecEnv
 from stable_baselines import A2C
 
-write_route_file('./nets/single-intersection-gen.rou.xml', 400000, 100000)
+# write_route_file('./nets/single-intersection-gen.rou.xml', 400000, 100000)
 
 sumo_env = SumoEnv(net_file='./nets/single-intersection-longer.net.xml',
-                   route_file='./nets/single-intersection-gen.rou.xml',
-                   out_csv_name='./outputs/a2c-contexts-5s-vmvm-400k',
+                   route_file='./nets/single-intersection.rou.xml',
+                   out_csv_name='./outputs/a2c-contexts-5s-vm-400k',
                    gui=True,
                    num_seconds=400000,
                    min_green=5,
@@ -27,9 +27,9 @@ sumo_env = SumoEnv(net_file='./nets/single-intersection-longer.net.xml',
 
 env = SubprocVecEnv([lambda: sumo_env])
 
-# model = A2C(MlpPolicy, env, verbose=1, learning_rate=0.0001, lr_schedule='constant')
-# model.learn(total_timesteps=200000)
-# model.save('model')
+model = A2C(MlpPolicy, env, verbose=1, learning_rate=0.0001, lr_schedule='constant')
+model.learn(total_timesteps=50000)
+model.save('model3')
 
-model = A2C.load('model')
-sumo_env.check(model)
+# model = A2C.load('model')
+# sumo_env.check(model)
