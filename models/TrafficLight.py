@@ -19,16 +19,16 @@ class TrafficLight:
         self.max_green = max_green
         self.time_on_phase = 0
         self.green_phase = 0
-        self.num_green_phases = len(phases) // 2
         self.lanes = list(dict.fromkeys(traci.trafficlight.getControlledLanes(self.id)))
-        self.edges = self._compute_edges()
-        self.edges_capacity = self._compute_edges_capacity()
         self.yellow_time = 2
 
         self.controlled_lanes = traci.trafficlight.getControlledLanes(self.id)
         self.program_id = traci.trafficlight.getProgram(self.id)
 
         if with_model:
+            self.num_green_phases = len(phases) // 2
+            self.edges = self._compute_edges()
+            self.edges_capacity = self._compute_edges_capacity()
             logic = traci.trafficlight.Logic("new-program" + str(self.id), 0, 0, phases=phases)
             traci.trafficlight.setCompleteRedYellowGreenDefinition(self.id, logic)
 
@@ -95,3 +95,11 @@ class TrafficLight:
         vehicle_size_min_gap = 7.5  # 5(vehSize) + 2.5(minGap)
         return [traci.lane.getLastStepHaltingNumber(lane) / (traci.lane.getLength(lane) / vehicle_size_min_gap)
                 for lane in self.lanes]
+
+    def get_waiting_time(self):
+        waiting_time = 0
+        for lane in self.lanes:
+            vehs = traci.lane.getLastStepVehicleIDs(lane)
+            for veh_id in vehs:
+                waiting_time += traci.vehicle.getAccumulatedWaitingTime(veh_id)
+        return waiting_time

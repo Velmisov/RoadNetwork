@@ -26,11 +26,11 @@ class RoadNetwork:
         if self.special_vehicle_id in traci.vehicle.getIDList():
             special_vehicle = Vehicle(self.special_vehicle_id)
 
+        tl_ids = TrafficLight.get_ids()
         if self.traffic_lights is None:
             self.traffic_lights = {}
-            tl_ids = TrafficLight.get_ids()
             for tl_id in tl_ids:
-                self.traffic_lights[tl_id] = TrafficLight(tl_id)
+                self.traffic_lights[tl_id] = TrafficLight(tl_id, self, self.tl_phases)
 
         if green_for_special_car:
             for tl_id in self.traffic_lights:
@@ -39,7 +39,11 @@ class RoadNetwork:
         for edge_id in self.edges:
             self.subscription_results[edge_id] = traci.edge.getSubscriptionResults(edge_id)
 
-        return self.subscription_results
+        waiting_time = 0
+        for tl_id in tl_ids:
+            waiting_time += self.traffic_lights[tl_id].get_waiting_time()
+
+        return self.subscription_results, waiting_time
 
     def Deijkstra(self, vehicle_id, calc_weight):
         INF = 1000
