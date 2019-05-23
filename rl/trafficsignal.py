@@ -65,21 +65,29 @@ class TrafficSignal:
                 for p in range(self.num_green_phases)]
 
     def get_waiting_time(self):
-        wait_time_per_road = []
-        for p in range(self.num_green_phases):
-            veh_list = self._get_veh_list(p)
-            wait_time = 0.0
-            for veh in veh_list:
-                veh_lane = self.get_edge_id(traci.vehicle.getLaneID(veh))
-                acc = traci.vehicle.getAccumulatedWaitingTime(veh)
-                if veh not in self.env.vehicles:
-                    self.env.vehicles[veh] = {veh_lane: acc}
-                else:
-                    self.env.vehicles[veh][veh_lane] = acc - sum(
-                        [self.env.vehicles[veh][lane] for lane in self.env.vehicles[veh].keys() if lane != veh_lane])
-                wait_time += self.env.vehicles[veh][veh_lane]
-            wait_time_per_road.append(wait_time)
-        return wait_time_per_road
+        waiting_time = 0
+        for lane in self.lanes:
+            vehs = traci.lane.getLastStepVehicleIDs(lane)
+            for veh_id in vehs:
+                waiting_time += traci.vehicle.getAccumulatedWaitingTime(veh_id)
+        return waiting_time
+
+    # def get_waiting_time(self):
+    #     wait_time_per_road = []
+    #     for p in range(self.num_green_phases):
+    #         veh_list = self._get_veh_list(p)
+    #         wait_time = 0.0
+    #         for veh in veh_list:
+    #             veh_lane = self.get_edge_id(traci.vehicle.getLaneID(veh))
+    #             acc = traci.vehicle.getAccumulatedWaitingTime(veh)
+    #             if veh not in self.env.vehicles:
+    #                 self.env.vehicles[veh] = {veh_lane: acc}
+    #             else:
+    #                 self.env.vehicles[veh][veh_lane] = acc - sum(
+    #                     [self.env.vehicles[veh][lane] for lane in self.env.vehicles[veh].keys() if lane != veh_lane])
+    #             wait_time += self.env.vehicles[veh][veh_lane]
+    #         wait_time_per_road.append(wait_time)
+    #     return sum(wait_time_per_road)
 
     def get_lanes_density(self):
         vehicle_size_min_gap = 7.5  # 5(vehSize) + 2.5(minGap)

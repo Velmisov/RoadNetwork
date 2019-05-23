@@ -123,17 +123,22 @@ class SumoEnv(gym.Env):
 
     def check(self, model):
         self.reset()
-
-        while True:
-            observation = self._compute_observations()
-            action = model.predict(observation)[0]
-            self._apply_action(action)
-            # run simulation for delta time
-            for _ in range(self.yellow_time):
-                traci.simulationStep()
-            self.traffic_signal.update_phase()
-            for _ in range(self.delta_time - self.yellow_time):
-                traci.simulationStep()
+        step = 0
+        with open(self.out_csv_name, 'w') as f:
+            f.write('reward,step_time,total_stopped,total_wait_time\n')
+            while traci.simulation.getMinExpectedNumber() > 0:
+                observation = self._compute_observations()
+                action = model.predict(observation)[0]
+                self._apply_action(action)
+                # run simulation for delta time
+                for _ in range(self.yellow_time):
+                    traci.simulationStep()
+                self.traffic_signal.update_phase()
+                for _ in range(self.delta_time - self.yellow_time):
+                    traci.simulationStep()
+                waiting_time = self.traffic_signal.get_waiting_time()
+                f.write('0,' + str(step) + ',0,' + str(waiting_time) + '\n')
+                step += 1
 
     def _apply_action(self, action):
         """
@@ -154,7 +159,7 @@ class SumoEnv(gym.Env):
         return self._waiting_time_reward()
 
     def _waiting_time_reward(self):
-        ts_wait = sum(self.traffic_signal.get_waiting_time())
+        ts_wait = self.traffic_signal.get_waiting_time()
         rewards = self.last_measure - ts_wait
         self.last_measure = ts_wait
         return rewards
