@@ -10,7 +10,7 @@ from stable_baselines import A2C
 
 sumo_env = SumoEnv(net_file='../data/default/default.net.xml',
                    route_file='../data/default/default.rou.xml',
-                   out_csv_name='../data/theory/model-little.csv',
+                   out_csv_name='../data/theory/model-direct.csv',
                    gui=True,
                    num_seconds=400000,
                    min_green=5,

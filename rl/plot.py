@@ -34,7 +34,7 @@ def moving_average(interval, window_size):
 
 def plot_figure(figsize=(12, 9), x_label='', y_label='', title=''):
     plt.figure(next(fig_gen), figsize=figsize)
-    plt.rcParams.update({'font.size': 20})
+    plt.rcParams.update({'font.size': 16})
     ax = plt.subplot()
 
     plt.grid(axis='y')
@@ -44,11 +44,12 @@ def plot_figure(figsize=(12, 9), x_label='', y_label='', title=''):
     ax.get_xaxis().tick_bottom()
     ax.get_yaxis().tick_left()
     plt.title(title)
+    plt.xticks(rotation=-30)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
 
 
-def to_intervals(arr, interval=10):
+def to_intervals(arr, interval=40):
     arr_interval = []
     result = []
     for i in range(len(arr)):

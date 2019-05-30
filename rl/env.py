@@ -92,8 +92,8 @@ class SumoEnv(gym.Env):
 
         self.vehicles = dict()
 
-        for _ in range(self.time_to_load_vehicles):
-            traci.simulationStep()
+        # for _ in range(self.time_to_load_vehicles):
+        #     traci.simulationStep()
 
         return self._compute_observations()
 

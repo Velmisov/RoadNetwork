@@ -21,7 +21,7 @@ edges = parse('../data/default/default.net.xml')
 
 rn = RoadNetwork(edges)
 step = 0
-with open('../data/theory/const_logic.csv', 'w') as f:
+with open('../data/theory/const_logic_direct.csv', 'w') as f:
     f.write('reward,step_time,total_stopped,total_wait_time\n')
     while not rn.empty():
         sub, waiting_time = rn.simulation_step()

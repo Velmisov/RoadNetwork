@@ -13,17 +13,17 @@ from models.Vehicle import Vehicle
 #     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 port = 10080
-sumoCmd = ['sumo-gui', '-c', '../data/special_vehicle_easy/sveasy.sumocfg', '--remote-port', str(port)]
+sumoCmd = ['sumo-gui', '-c', '../data/special_vehicle_hard/svhard.sumocfg', '--remote-port', str(port)]
 
 sumoProcess = subprocess.Popen(sumoCmd, stdout=sys.stdout, stderr=sys.stderr)
 traci.init(port)
 
-edges = parse('../data/special_vehicle_easy/sveasy.net.xml')
+edges = parse('../data/special_vehicle_hard/svhard.net.xml')
 
 rn = RoadNetwork(edges, 'specialCar')
 vehicles = {}
 while not rn.empty():
-    rn.simulation_step(green_for_special_car=True)
+    rn.simulation_step(green_for_special_car=False)
     # print(traci.trafficlight.getCompleteRedYellowGreenDefinition('center'))
     # print(traci.trafficlight.getProgram('center'))
     # print(traci.trafficlight.getControlledLanes('center'))
